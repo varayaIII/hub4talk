@@ -1,0 +1,14 @@
+
+app ID AGORA
+
+735465bf16f748e1a29c756d7ded5841
+
+
+primary certificate:
+
+ab8b38fa165242d8a014df3e25ab3ddd
+
+
+secondary certificate:
+
+6da230e48603480c8dd39d198bf07c7d

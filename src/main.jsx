@@ -1,17 +1,20 @@
-// src/main.jsx
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import Room from "./pages/Room.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// 🎨 Estilos
+import "./styles/index.css";
+import "./styles/background.css";
 
-// 🎨 Importar estilos
-import './styles/index.css'           // Principal (Tailwind)
-import './styles/background.css'
-// import './styles/animations.css'      // Animaciones (opcional)
-// import './styles/custom.css'       // Custom (solo si necesitas)
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/room/:id" element={<Room />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+);

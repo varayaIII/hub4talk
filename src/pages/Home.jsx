@@ -1,59 +1,90 @@
-import { Globe, Search, Plus, Coffee } from "lucide-react";
+import { Globe, Search, Sparkles, TrendingUp } from "lucide-react";
 import RoomList from "../components/room/RoomList";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import CreateRoomModal from "../components/room/CreateRoomModal";
+import SignInModal from "../components/auth/SignInModal";
 
 export default function Home() {
+  const { user } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [levelFilter, setLevelFilter] = useState("all");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
+
+  const handleCreateRoom = () => {
+    if (!user) {
+      setShowSignInModal(true);
+      return;
+    }
+    setShowCreateModal(true);
+  };
+
   return (
-    <div className="min-h-screen bg-[#0f1419] text-[#E6E9ED] font-sans">
-      {/* HEADER */}
-      <header className="border-b border-[#1b2229] bg-[#0f1419]/95 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
-          {/* LOGO */}
-          <div className="flex items-center gap-2">
-            <Globe className="w-6 h-6 text-[#E0C3A4]" />
-            <span className="text-lg font-semibold tracking-tight text-[#E0C3A4]">
-              Hub4Talk
+    <div className="min-h-screen bg-[#0f1419] text-[#E6E9ED] font-sans pt-[72px]">
+      {/* HERO SECTION */}
+      <section className="border-b border-[#1b2229] bg-gradient-to-b from-[#12181d] to-[#0f1419] px-4 sm:px-6 py-12">
+        <div className="max-w-5xl mx-auto text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#E0C3A4]/10 border border-[#E0C3A4]/20 mb-6">
+            <Sparkles className="w-4 h-4 text-[#E0C3A4]" />
+            <span className="text-sm font-medium text-[#E0C3A4]">
+              Join 10,000+ language learners worldwide
             </span>
           </div>
 
-          {/* BOTONES - Desktop */}
-          <div className="hidden md:flex items-center gap-2">
-            <button className="rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-gray-200 transition hover:bg-white/10 hover:border-white/20">
-              <Plus className="w-4 h-4 inline mr-2" />
-              Create Room
-            </button>
+          {/* Título Principal */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+            Practice Languages
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#A8C0A4] to-[#E0C3A4]">
+              Community
+            </span>
+          </h1>
 
-            <button className="rounded-md border border-[#E0C3A4]/20 bg-[#E0C3A4]/5 px-4 py-2 text-sm font-medium text-[#E0C3A4] hover:bg-[#E0C3A4]/10 hover:border-[#E0C3A4]/30 transition">
-              <Coffee className="w-4 h-4 inline mr-2" />
-              Support
-            </button>
+          {/* Subtítulo */}
+          <p className="text-lg sm:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+            Join live conversations in chat rooms with real people and language learners from around the world.
+          </p>
 
-            <button className="rounded-md border border-white/5 bg-white/5 px-3 py-2 text-sm text-gray-400 hover:text-[#E0C3A4] hover:bg-white/10 transition">
-              Privacy
-            </button>
-
-            <button className="rounded-md bg-gradient-to-r from-[#A8C0A4]/10 to-[#E0C3A4]/10 border border-white/10 px-4 py-2 text-sm font-semibold text-gray-200 hover:border-[#E0C3A4]/30 hover:text-[#E0C3A4] transition">
-              Sign In
-            </button>
+          {/* Stats */}
+          <div className="flex flex-wrap justify-center gap-8 mb-8">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-green-400" />
+              <div className="text-left">
+                <div className="text-2xl font-bold text-white">150+</div>
+                <div className="text-xs text-gray-500">Active Rooms</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Globe className="w-5 h-5 text-[#E0C3A4]" />
+              <div className="text-left">
+                <div className="text-2xl font-bold text-white">25+</div>
+                <div className="text-xs text-gray-500">Languages</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-yellow-400" />
+              <div className="text-left">
+                <div className="text-2xl font-bold text-white">4.8★</div>
+                <div className="text-xs text-gray-500">User Rating</div>
+              </div>
+            </div>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button className="md:hidden p-2 text-gray-400 hover:text-[#E0C3A4]">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
         </div>
-      </header>
+      </section>
 
-      {/* BARRA DE BÚSQUEDA */}
-      <section className="border-b border-[#1b2229] bg-[#12181d] px-4 sm:px-6 py-4">
+      {/* BARRA DE BÚSQUEDA - Ahora funcional */}
+      <section className="border-b border-[#1b2229] bg-[#0f1419] px-4 sm:px-6 py-6">
         <div className="max-w-3xl mx-auto">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A9199]" />
+          <div className="relative group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8A9199] group-focus-within:text-[#E0C3A4] transition" />
             <input
               type="text"
-              placeholder="Search for Language, Level, Topic, Username..."
-              className="w-full bg-[#0f1419] border border-[#1b2229] rounded-md py-2.5 pl-10 pr-4 text-sm text-[#C7CCD1] placeholder-[#646C75] focus:outline-none focus:border-[#E0C3A4] transition"
+              placeholder="Search by language, level, topic or username..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-[#12181d] border border-[#1b2229] rounded-xl py-3.5 pl-12 pr-4 text-sm text-[#C7CCD1] placeholder-[#646C75] focus:outline-none focus:border-[#E0C3A4] focus:ring-2 focus:ring-[#E0C3A4]/20 transition shadow-lg"
             />
           </div>
         </div>
@@ -61,18 +92,64 @@ export default function Home() {
 
       {/* CONTENIDO PRINCIPAL */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-        <div className="text-center mb-10">
-          <h1 className="text-xs sm:text-sm text-[#A0A6AD] uppercase tracking-widest mb-2">
-            Language Practice Community
-          </h1>
-          <p className="text-gray-500 text-sm">
-            Join live conversations with language learners worldwide
-          </p>
+        {/* Header de sección */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-1">
+              Active Rooms
+            </h2>
+            <p className="text-sm text-gray-500">
+              Choose a room and start practicing
+            </p>
+          </div>
+          
+          {/* Filtros rápidos - Ahora funcionales */}
+          <div className="hidden md:flex gap-2">
+            <button 
+              onClick={() => setActiveFilter("all")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium border transition ${
+                activeFilter === "all"
+                  ? "bg-[#E0C3A4]/10 text-[#E0C3A4] border-[#E0C3A4]/20"
+                  : "bg-[#12181d] text-gray-400 border-[#1b2229] hover:border-[#E0C3A4]/20 hover:text-[#E0C3A4]"
+              }`}
+            >
+              All Languages
+            </button>
+            <button 
+              onClick={() => setLevelFilter(levelFilter === "beginner" ? "all" : "beginner")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium border transition ${
+                levelFilter === "beginner"
+                  ? "bg-[#E0C3A4]/10 text-[#E0C3A4] border-[#E0C3A4]/20"
+                  : "bg-[#12181d] text-gray-400 border-[#1b2229] hover:border-[#E0C3A4]/20 hover:text-[#E0C3A4]"
+              }`}
+            >
+              Beginner
+            </button>
+            <button 
+              onClick={() => setActiveFilter(activeFilter === "active" ? "all" : "active")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium border transition ${
+                activeFilter === "active"
+                  ? "bg-[#E0C3A4]/10 text-[#E0C3A4] border-[#E0C3A4]/20"
+                  : "bg-[#12181d] text-gray-400 border-[#1b2229] hover:border-[#E0C3A4]/20 hover:text-[#E0C3A4]"
+              }`}
+            >
+              Active Now
+            </button>
+          </div>
         </div>
 
-        {/* LISTA DE SALAS */}
-        <RoomList />
+        {/* LISTA DE SALAS - Ahora recibe filtros */}
+        <RoomList 
+          searchQuery={searchQuery}
+          languageFilter={activeFilter}
+          levelFilter={levelFilter}
+        />
       </main>
+
+      {/* Modal para crear sala */}
+      {showCreateModal && (
+        <CreateRoomModal onClose={() => setShowCreateModal(false)} />
+      )}
     </div>
   );
 }
